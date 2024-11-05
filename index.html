@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Random Name Order Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #nameList {
+            width: 100%;
+            height: 200px;
+        }
+        #result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Random Name Order Generator</h1>
+    <p>Enter between 10 and 20 names, one per line:</p>
+    <textarea id="nameList"></textarea><br><br>
+    <button onclick="randomizeNames()">Randomize</button>
+
+    <div id="result"></div>
+
+    <script>
+        function randomizeNames() {
+            var names = document.getElementById('nameList').value.trim().split('\n');
+            names = names.filter(function(name) { return name.trim() !== ''; });
+
+            if (names.length < 10 || names.length > 20) {
+                alert('Please enter between 10 and 20 names.');
+                return;
+            }
+
+            // Fisher-Yates Shuffle Algorithm
+            for (let i = names.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [names[i], names[j]] = [names[j], names[i]];
+            }
+
+            var resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<h2>Randomized Names:</h2><ol>' + names.map(function(name) {
+                return '<li>' + name + '</li>';
+            }).join('') + '</ol>';
+        }
+    </script>
+</body>
+</html>
